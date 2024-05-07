@@ -1,0 +1,221 @@
+#include<iostream>
+using namespace std;
+
+class LinkedListDemo {
+    class GetNode {
+    public:
+        int data;
+        GetNode *next;
+
+        GetNode() {
+            next = NULL;
+        }
+    };
+
+public:
+    GetNode *head = NULL;
+
+    void append() {
+        int data;
+        cout << "Enter data: ";
+        cin >> data;
+        GetNode *newNode = new GetNode();
+        newNode->data = data;
+        if (head == NULL) {
+            head = newNode;
+        }
+        else {
+            GetNode *ptr;
+            ptr = head;
+            while (ptr->next != NULL) {
+                ptr = ptr->next;
+            }
+            ptr->next = newNode;
+            cout << "Data is added..." << endl;
+        }
+    }
+
+    void display() {
+        GetNode *ptr;
+        ptr = head;
+        cout << endl;
+        while (ptr != NULL) {
+            cout << ptr->data << "->";
+            ptr = ptr->next;
+        }
+    }
+
+    void AddAtBegin() {
+        int data;
+        cout << "Enter data: ";
+        cin >> data;
+        GetNode *newNode = new GetNode();
+        newNode->data = data;
+        if (head == NULL) {
+            head = newNode;
+        }
+        else {
+            newNode->next = head;
+            head = newNode;
+            cout << "Data is added..." << endl;
+        }
+    }
+
+    void AddAtEnd() {
+        int data;
+        cout << "Enter data: ";
+        cin >> data;
+        GetNode *newNode = new GetNode();
+        newNode->data = data;
+        if (head == NULL) {
+            head = newNode;
+        }
+        else {
+            GetNode *ptr;
+            ptr = head;
+            while (ptr->next != NULL) {
+                ptr = ptr->next;
+            }
+            ptr->next = newNode;
+            cout << "Data is added..." << endl;
+        }
+    }
+
+    void AddAnywhere() {
+        int data;
+        cout << "Enter data: ";
+        cin >> data;
+        GetNode *newNode = new GetNode();
+        newNode->data = data;
+        int pos;
+        cout << "Enter the position to add the data: ";
+        cin >> pos;
+        if (pos < 1) {
+            cout << "Invalid position" << endl;
+            return;
+        }
+        else if (pos == 1) {
+            newNode->next = head;
+            head = newNode;
+        }
+        else {
+            GetNode *ptr;
+            ptr = head;
+            for (int i = 1; i < pos - 1 && ptr != NULL; i++) {
+                ptr = ptr->next;
+            }
+            if (ptr == NULL) {
+                cout << "Invalid position" << endl;
+                return;
+            }
+            newNode->next = ptr->next;
+            ptr->next = newNode;
+        }
+    }
+
+    void DeleteAtBegin() {
+        if (head == NULL) {
+            cout << "List is empty..." << endl;
+        }
+        else {
+            GetNode *ptr = head;
+            head = head->next;
+            delete ptr;
+            cout << "Node deleted..." << endl;
+        }
+    }
+
+    void DeleteAtEnd() {
+        if (head == NULL) {
+            cout << "List is empty..." << endl;
+        }
+        else if (head->next == NULL) {
+            delete head;
+            head = NULL;
+            cout << "Node deleted..." << endl;
+        }
+        else {
+            GetNode *ptr = head;
+            while (ptr->next->next != NULL) {
+                ptr = ptr->next;
+            }
+            delete ptr->next;
+            ptr->next = NULL;
+            cout << "Node deleted..." << endl;
+        }
+    }
+
+    void DeleteAnywhere() {
+        if (head == NULL) {
+            cout << "List is empty..." << endl;
+            return;
+        }
+        int pos;
+        cout << "Enter the position to delete the data: ";
+        cin >> pos;
+        if (pos < 1) {
+            cout << "Invalid position..." << endl;
+            return;
+        }
+        else if (pos == 1) {
+            GetNode *ptr = head;
+            head = head->next;
+            delete ptr;
+            cout << "Node deleted..." << endl;
+        }
+        else {
+            GetNode *ptr = head;
+            for (int i = 1; i < pos - 1 && ptr != NULL; i++) {
+                ptr = ptr->next;
+            }
+            if (ptr == NULL || ptr->next == NULL) {
+                cout << "Invalid position" << endl;
+                return;
+            }
+            GetNode *temp = ptr->next;
+            ptr->next = temp->next;
+            delete temp;
+            cout << "Node deleted..." << endl;
+        }
+    }
+
+    ~LinkedListDemo() {
+        GetNode *ptr = head;
+        while (ptr != NULL) {
+            GetNode *temp = ptr;
+            ptr = ptr->next;
+            delete temp;
+        }
+    }
+};
+
+int main() {
+    int n;
+    LinkedListDemo obj;
+    while (true) {
+        cout << "\n1. Append " << endl;
+        cout << "2. Display " << endl;
+        cout << "3. Add at Begin " << endl;
+        cout << "4. Add at End " << endl;
+        cout << "5. Add anywhere " << endl;
+        cout << "6. Delete at begin " << endl;
+        cout << "7. Delete at end " << endl;
+        cout << "8. Delete anywhere " << endl;
+        cout << "0. Exit " << endl;
+        cout << "Select any choice: ";
+        cin >> n;
+        switch (n) {
+        case 1: obj.append(); break;
+        case 2: obj.display(); break;
+        case 3: obj.AddAtBegin(); break;
+        case 4: obj.AddAtEnd(); break;
+        case 5: obj.AddAnywhere(); break;
+        case 6: obj.DeleteAtBegin(); break;
+        case 7: obj.DeleteAtEnd(); break;
+        case 8: obj.DeleteAnywhere(); break;
+        case 0: return 0;
+        default: cout << "Invalid choice" << endl; break;
+        }
+    }
+    return 0;
+}
